@@ -102,6 +102,15 @@ que falta configurar — útil para mexer só no visual.
 
 ## 3. Deploy na Vercel
 
+**Como está configurado hoje:** o site está em **https://lirismo.vercel.app**, no
+projeto `lirismo` da Vercel, ligado ao repositório
+[JonatasGandra/lirismo](https://github.com/JonatasGandra/lirismo). Todo push ou merge
+na `main` publica o site em produção sozinho, em cerca de 1 minuto. Outras branches e
+pull requests ganham um deploy de teste com URL própria, que não mexe no site
+principal. As variáveis de ambiente já estão cadastradas para Production e Preview.
+
+Para montar do zero em outra conta:
+
 1. Suba o projeto para um repositório no GitHub (de preferência **privado**):
    ```bash
    git init -b main
