@@ -292,18 +292,19 @@ export function BloomHero() {
 
         <p className="bloom-note">{site.hero.note}</p>
 
-        <a href="#destaque" className="bloom-down" aria-label="Descer até o poema em destaque">
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        {/* Só um sinal de "role para baixo": não é botão (a capa se descobre rolando). */}
+        <span className="bloom-down" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
             <path
-              d="M12 4v15m0 0-6-6m6 6 6-6"
+              d="M12 3v17m0 0-6.5-6.5M12 20l6.5-6.5"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1.4"
+              strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
           </svg>
-        </a>
+        </span>
 
         <div className="bloom-day" aria-hidden="true" />
 
