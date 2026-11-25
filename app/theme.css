@@ -7,13 +7,13 @@
  */
 :root {
   /* Cores */
-  --color-bg: #fbf8f4;              /* papel marfim, quente */
+  --color-bg: #f8f4fb;              /* papel branco-lilás: o mesmo da frase escrita à mão até o fim */
   --color-surface: #fffdfb;         /* cartões e painéis */
   --color-text: #2e2533;            /* ameixa quase preta */
   --color-muted: #6e6375;           /* textos secundários (contraste AA) */
-  --color-accent: #9a7bbf;          /* lilás claro: títulos, links e botões (pedido: mais claro) */
-  --color-accent-soft: #d5bfe9;     /* lilás da flor: ornamentos e detalhes */
-  --color-accent-wash: #f5eefb;     /* véu lilás: fundos suaves */
+  --color-accent: #b49ad3;          /* lilás bem claro: títulos, links e botões (pedido: mais claro) */
+  --color-accent-soft: #e3d4f1;     /* lilás da flor: ornamentos e detalhes */
+  --color-accent-wash: #f0e7f8;     /* véu lilás: fundos suaves (um tom acima do papel) */
   --color-accent-contrast: #ffffff; /* texto sobre o lilás */
   --color-petal: #ece0f4;           /* pétalas da frente do lírio e as que voam */
   --color-line: #e8deeb;            /* filetes e bordas */
@@ -68,7 +68,7 @@
 
   /* Textura de papel (grão sutil, em tom de ameixa) */
   --texture-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.3 0 0 0 0 0.5 0 0 0 0.32 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-  --texture-opacity: 0.2;
+  --texture-opacity: 0; /* grão desligado: o fundo fica idêntico ao da frase escrita à mão */
 
   /* Movimento: o vento passando pela pétala */
   --ease-petal: cubic-bezier(0.22, 0.61, 0.36, 1);

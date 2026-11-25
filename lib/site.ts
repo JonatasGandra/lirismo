@@ -9,8 +9,8 @@ export const site = {
   description: "Poemas e canções para a Milly — o lírio, a lira e a poesia num só nome.",
   hero: {
     // Título dividido dos dois lados do lírio (a 2ª palavra aparece em caixa alta).
-    left: ["Versos que", "florescem"],
-    right: ["canções que", "perfumam"],
+    left: ["Versos de", "quem ama"],
+    right: ["Canções para", "a amada"],
     note: "Um catálogo de poemas e canções escritos para Camilly. Lírio, lira e poesia num só nome: Lirismo.",
   },
   // A frase escrita à mão quando a noite da capa vira dia ("Com carinho à Milly")

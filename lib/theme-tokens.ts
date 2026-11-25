@@ -4,13 +4,13 @@
  * Ao mudar a paleta em app/theme.css, atualize aqui também.
  */
 export const themeTokens = {
-  bg: "#FBF8F4",
+  bg: "#F8F4FB",
   surface: "#FFFDFB",
   text: "#2E2533",
   muted: "#6E6375",
-  accent: "#9A7BBF",
-  accentSoft: "#D5BFE9",
-  accentWash: "#F5EEFB",
+  accent: "#B49AD3",
+  accentSoft: "#E3D4F1",
+  accentWash: "#F0E7F8",
   petal: "#ECE0F4",
   leaf: "#7C9473",
   pollen: "#C98A5B",

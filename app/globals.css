@@ -28,10 +28,9 @@
     z-index: -1;
     pointer-events: none;
   }
+  /* Sem véu nos cantos: o papel é uniforme, da frase escrita à mão até o fim */
   body::before {
-    background:
-      radial-gradient(55rem 38rem at 100% -10%, var(--color-accent-wash), transparent 62%),
-      radial-gradient(45rem 36rem at -10% 110%, var(--color-accent-wash), transparent 60%);
+    background: none;
   }
   body::after {
     opacity: var(--texture-opacity);
@@ -262,7 +261,7 @@
 .site-footer {
   margin-top: 6rem;
   border-top: 1px solid var(--color-line);
-  background: linear-gradient(to bottom, transparent, var(--color-accent-wash));
+  /* sem degradê: o papel tem uma cor só até o fim */
 }
 
 /* ── Botões e links ───────────────────────────────────────────────────── */
@@ -738,13 +737,6 @@
   padding: 2rem clamp(1.25rem, 6vw, 6rem);
   pointer-events: none;
 }
-.bloom-dedication::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(50rem 30rem at 50% 50%, var(--color-accent-wash), transparent 70%);
-  opacity: calc((var(--dawn) - 0.6) * 2.5);
-}
 .handwriting {
   position: relative;
   width: min(100%, 76rem);
@@ -1058,6 +1050,10 @@
    limite é o tamanho normal do poema. */
 .coverflow--poem .featured-card {
   container-type: inline-size;
+  /* sombra mais curta que a padrão: cabe no palco sem ser cortada (sem "faixa") */
+  box-shadow:
+    0 2px 6px rgb(64 34 84 / 0.04),
+    0 26px 48px -30px rgb(84 44 120 / 0.34);
 }
 .coverflow--poem .poem {
   font-size: clamp(0.88rem, 5.1cqi, var(--poem-size));
