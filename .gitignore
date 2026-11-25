@@ -1,0 +1,23 @@
+# dependências
+node_modules
+
+# build
+.next
+out
+*.tsbuildinfo
+next-env.d.ts
+
+# ambiente (nunca versionar chaves)
+.env
+.env*.local
+
+# vercel
+.vercel
+
+# testes
+coverage
+
+# gravações/vídeos brutos na raiz (os quadros usados ficam em public/lirio)
+/*.mp4
+
+.vercel

@@ -1,0 +1,77 @@
+/*
+ * Tema "Lírio & Lilás"
+ * --------------------------------------------------------------------------
+ * Todas as cores, fontes, tamanhos, raios, sombras e movimentos do site saem
+ * daqui. Para mudar o visual, edite só este arquivo (e lib/theme-tokens.ts,
+ * que espelha as cores para as imagens de compartilhamento).
+ */
+:root {
+  /* Cores */
+  --color-bg: #fbf8f4;              /* papel marfim, quente */
+  --color-surface: #fffdfb;         /* cartões e painéis */
+  --color-text: #2e2533;            /* ameixa quase preta */
+  --color-muted: #6e6375;           /* textos secundários (contraste AA) */
+  --color-accent: #7e57a0;          /* lilás profundo: links e botões (contraste AA) */
+  --color-accent-soft: #c6a8dd;     /* lilás da flor: ornamentos e detalhes */
+  --color-accent-wash: #f1e9f6;     /* véu lilás: fundos suaves */
+  --color-accent-contrast: #ffffff; /* texto sobre o lilás */
+  --color-petal: #ece0f4;           /* pétalas da frente do lírio e as que voam */
+  --color-line: #e8deeb;            /* filetes e bordas */
+  --color-leaf: #7c9473;            /* haste e pistilo */
+  --color-pollen: #c98a5b;          /* anteras */
+  --color-danger: #a4384f;
+  --color-danger-wash: #f8e9ed;
+
+  /* Noite da capa: o lírio desabrocha no escuro */
+  --color-night: #0b080e;
+  --color-night-text: #f5eff9;
+  --color-night-accent: #dcc6ee;    /* lilás claro sobre a noite */
+  --color-night-muted: #b3a3c0;
+  --gradient-night:
+    radial-gradient(60% 50% at 50% 82%, #2b1b39 0%, transparent 72%),
+    radial-gradient(45% 40% at 12% 18%, #1b1124 0%, transparent 70%),
+    #0b080e;
+
+  /* Fontes (as variáveis --font-eb-garamond etc. vêm de app/fonts.ts) */
+  --font-poem: var(--font-eb-garamond), "EB Garamond", Garamond, "Times New Roman", serif;
+  --font-title: var(--font-cormorant), "Cormorant Garamond", Garamond, serif;
+  --font-display: var(--font-italiana), "Italiana", "Cormorant Garamond", serif;
+  --font-script: var(--font-great-vibes), "Great Vibes", cursive;
+  --font-ui: var(--font-jost), "Jost", ui-sans-serif, system-ui, sans-serif;
+
+  /* Tamanhos */
+  --poem-size: clamp(1.15rem, 1.06rem + 0.35vw, 1.3rem);
+  --stanza-gap: 1.6em;
+  --content-width: 38rem;
+  --wide-width: 72rem;
+  --size-display-hero: clamp(2.7rem, 6vw, 6rem);
+  --size-display-section: clamp(2.6rem, 6.5vw, 4.5rem);
+  --size-script-section: clamp(3rem, 8vw, 5rem);
+  --size-title-xl: clamp(2.3rem, 5.5vw, 3.75rem);
+  --size-title-lg: clamp(1.6rem, 3.2vw, 2.2rem);
+  --size-title-md: 1.55rem;
+  --size-lede: clamp(1.15rem, 1rem + 0.5vw, 1.35rem);
+  --size-eyebrow: 0.72rem;
+
+  /* Formas */
+  --radius: 14px;
+  --radius-lg: 28px;
+  --shadow: 0 1px 2px rgb(64 34 84 / 0.05), 0 10px 28px -14px rgb(64 34 84 / 0.22);
+  --shadow-lg: 0 2px 6px rgb(64 34 84 / 0.04), 0 40px 80px -40px rgb(84 44 120 / 0.38);
+  --shadow-text: 0 6px 30px rgb(46 37 51 / 0.2);
+
+  /* Barra de rolagem: linha fina e translúcida */
+  --scrollbar-thumb: color-mix(in srgb, var(--color-accent) 38%, transparent);
+  --scrollbar-thumb-hover: color-mix(in srgb, var(--color-accent) 62%, transparent);
+  --scrollbar-thumb-night: color-mix(in srgb, var(--color-night-accent) 42%, transparent);
+  --scrollbar-thumb-night-hover: color-mix(in srgb, var(--color-night-accent) 72%, transparent);
+
+  /* Textura de papel (grão sutil, em tom de ameixa) */
+  --texture-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.3 0 0 0 0 0.5 0 0 0 0.32 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  --texture-opacity: 0.2;
+
+  /* Movimento: o vento passando pela pétala */
+  --ease-petal: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-breeze: cubic-bezier(0.45, 0.05, 0.25, 1);
+  --duration-reveal: 1.2s;
+}

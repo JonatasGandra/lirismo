@@ -1,0 +1,13 @@
+# O que NÃO sobe no deploy (a Vercel instala as dependências e faz o build sozinha)
+node_modules
+.next
+*.tsbuildinfo
+coverage
+
+# chaves ficam nas variáveis de ambiente da Vercel, nunca em arquivo
+.env
+.env*.local
+
+# gravação bruta do lírio (os quadros usados estão em public/lirio) e a especificação
+/*.mp4
+/Especificação*.md

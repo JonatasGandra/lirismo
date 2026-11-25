@@ -1,0 +1,1663 @@
+@tailwind base;
+
+/* ── Base ─────────────────────────────────────────────────────────────── */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    position: relative;
+    isolation: isolate;
+    min-height: 100dvh;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-ui);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Véu lilás nos cantos e grão de papel, fixos atrás de tudo */
+  body::before,
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+  body::before {
+    background:
+      radial-gradient(55rem 38rem at 100% -10%, var(--color-accent-wash), transparent 62%),
+      radial-gradient(45rem 36rem at -10% 110%, var(--color-accent-wash), transparent 60%);
+  }
+  body::after {
+    opacity: var(--texture-opacity);
+    background-image: var(--texture-grain);
+  }
+
+  ::selection {
+    background: var(--color-accent-soft);
+    color: var(--color-text);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@tailwind components;
+
+/*
+ * Componentes do site. Ficam fora de @layer de propósito: assim nunca são
+ * removidos pelo purge do Tailwind, e os utilitários (abaixo) ainda podem
+ * sobrescrevê-los.
+ */
+
+/* ── Tipografia de catálogo ───────────────────────────────────────────── */
+.eyebrow {
+  font-family: var(--font-ui);
+  font-size: var(--size-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.section-heading {
+  text-align: center;
+}
+.section-title {
+  margin-top: 0.9rem;
+  font-family: var(--font-display);
+  font-size: var(--size-display-section);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.05;
+  color: var(--color-accent);
+}
+.section-lede {
+  margin: 1.25rem auto 0;
+  max-width: 34rem;
+  font-family: var(--font-poem);
+  font-size: var(--size-lede);
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--color-muted);
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  padding: 0.6rem 1.1rem;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  transition: top 0.3s var(--ease-petal);
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ── Navegação ────────────────────────────────────────────────────────── */
+/* O site público não tem barra de navegação: os caminhos ficam nos links da
+   página, no "← voltar" das páginas internas e no rodapé. Este cabeçalho é
+   só o do painel do autor. */
+.site-header {
+  background: var(--color-bg);
+  background: color-mix(in srgb, var(--color-bg) 80%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  backdrop-filter: blur(14px) saturate(1.2);
+  border-bottom: 1px solid var(--color-line);
+}
+.brand-name {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: 0.2em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+/* O nome escrito na serifada fina (sem desenho de logo) */
+.wordmark {
+  padding-left: 0.32em; /* compensa o espaçamento das letras para centralizar */
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+/* Voltar: botão redondo e fino com um chevron (sem seta escrita) */
+.back-button {
+  position: absolute;
+  top: clamp(1rem, 3vw, 2rem);
+  left: clamp(1rem, 4vw, 3rem);
+  z-index: 5;
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border: 1px solid var(--color-accent-soft);
+  border-radius: 50%;
+  color: var(--color-accent);
+  transition:
+    background-color 0.4s var(--ease-petal),
+    border-color 0.4s var(--ease-petal),
+    transform 0.6s var(--ease-petal);
+}
+.back-button:hover {
+  border-color: var(--color-accent);
+  background: var(--color-accent-wash);
+  transform: translateX(-3px);
+}
+.back-button svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+/* Número do poema em romano + data minimalista, centralizados */
+.numeral {
+  display: block;
+  padding-left: 0.32em; /* compensa o espaçamento das letras para centralizar */
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.32em;
+  line-height: 1;
+  color: var(--color-accent);
+}
+.numeral--lg {
+  font-size: 1.5rem;
+}
+.minimal-date {
+  display: block;
+  margin-top: 0.6rem;
+  padding-left: 0.24em;
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  letter-spacing: 0.24em;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Títulos que são links ("Poemas", "Músicas" na capa): um filete lilás curto
+   embaixo, que se estende ao passar o mouse — sem botão */
+.section-title-link {
+  position: relative;
+  display: inline-block;
+  transition: color 0.5s var(--ease-petal);
+}
+.section-title-link::after {
+  content: "";
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: -0.04em;
+  height: 1px;
+  background: var(--color-accent-soft);
+  transform: scaleX(0.3);
+  transition:
+    transform 0.9s var(--ease-petal),
+    background-color 0.5s;
+}
+.section-title-link:hover::after,
+.section-title-link:focus-visible::after {
+  transform: scaleX(1);
+  background: var(--color-accent);
+}
+
+/* O bloco do poema centralizado na página, com os versos alinhados à esquerda */
+.poem-centered {
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+.nav-link {
+  position: relative;
+  padding: 0.5rem 0;
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  transition: color 0.4s var(--ease-petal);
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0.24em;
+  bottom: 0.2rem;
+  height: 1px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.7s var(--ease-petal);
+}
+.nav-link:hover,
+.nav-link[aria-current="page"] {
+  color: var(--color-accent);
+}
+.nav-link:hover::after,
+.nav-link[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+.site-footer {
+  margin-top: 6rem;
+  border-top: 1px solid var(--color-line);
+  background: linear-gradient(to bottom, transparent, var(--color-accent-wash));
+}
+
+/* ── Botões e links ───────────────────────────────────────────────────── */
+.btn,
+.btn-ghost,
+.btn-danger {
+  display: inline-flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1.6rem;
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  transition:
+    transform 0.5s var(--ease-petal),
+    box-shadow 0.5s var(--ease-petal),
+    background-color 0.3s,
+    color 0.3s;
+}
+.btn {
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  box-shadow: var(--shadow);
+}
+.btn-ghost {
+  border: 1px solid var(--color-accent-soft);
+  background: transparent;
+  color: var(--color-accent);
+}
+.btn-danger {
+  min-height: 2.25rem;
+  padding: 0.45rem 1rem;
+  background: var(--color-danger);
+  color: var(--color-accent-contrast);
+}
+.btn:hover,
+.btn-ghost:hover {
+  transform: translateY(-2px);
+}
+.btn:hover {
+  box-shadow: var(--shadow-lg);
+}
+.btn-ghost:hover {
+  background: var(--color-accent-wash);
+}
+.btn:disabled,
+.btn-ghost:disabled,
+.btn-danger:disabled {
+  cursor: progress;
+  opacity: 0.6;
+  transform: none;
+}
+
+.text-button {
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  text-decoration: underline;
+  text-decoration-color: var(--color-line);
+  text-underline-offset: 5px;
+  transition: color 0.3s;
+}
+.text-button:hover {
+  color: var(--color-accent);
+  text-decoration-color: var(--color-accent-soft);
+}
+.text-button--danger {
+  color: var(--color-danger);
+}
+
+
+/* ── Divisor ──────────────────────────────────────────────────────────── */
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+}
+.ornament-line {
+  width: 4.5rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-accent-soft));
+}
+.ornament-line--end {
+  background: linear-gradient(90deg, var(--color-accent-soft), transparent);
+}
+.ornament-gem {
+  width: 0.45rem;
+  height: 0.45rem;
+  flex: none;
+  border: 1px solid var(--color-accent-soft);
+  background: var(--color-accent-wash);
+  transform: rotate(45deg);
+}
+
+/* ── Pétalas ao vento ─────────────────────────────────────────────────── */
+.petal-shape {
+  fill: var(--color-petal);
+  stroke: var(--color-accent-soft);
+  stroke-width: 0.6;
+}
+.petal-vein {
+  fill: none;
+  stroke: var(--color-accent-soft);
+  stroke-width: 0.5;
+  opacity: 0.8;
+}
+
+.gust-petal > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: petal-sway calc(var(--dur, 4s) / 5) var(--ease-breeze) infinite alternate;
+}
+@keyframes petal-sway {
+  from {
+    transform: translateX(-12px) rotate(-16deg);
+  }
+  to {
+    transform: translateX(12px) rotate(20deg);
+  }
+}
+
+/* Rajada que atravessa a tela a cada troca de página */
+.gust {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  overflow: hidden;
+  pointer-events: none;
+}
+.gust-petal {
+  position: absolute;
+  left: -4rem;
+  top: var(--y);
+  width: var(--size);
+  aspect-ratio: 20 / 32;
+  opacity: 0;
+  animation: gust 2.6s var(--ease-breeze) var(--delay) forwards;
+}
+@keyframes gust {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(-40deg);
+  }
+  12% {
+    opacity: 0.9;
+  }
+  55% {
+    transform: translate3d(55vw, -7vh, 0) rotate(140deg);
+  }
+  85% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(100vw + 8rem), 3vh, 0) rotate(320deg);
+  }
+}
+
+/* ── Transições e revelações ──────────────────────────────────────────── */
+/* Rajada de pétalas na passagem da frase escrita para o catálogo (~1,5 s) */
+.leaf-gust {
+  position: fixed;
+  inset: 0;
+  z-index: 65;
+  overflow: hidden;
+  pointer-events: none;
+}
+.leaf-gust-petal {
+  position: absolute;
+  left: -4rem;
+  top: var(--y);
+  width: var(--size);
+  aspect-ratio: 20 / 32;
+  opacity: 0;
+}
+.leaf-gust-petal > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: petal-sway 0.5s var(--ease-breeze) infinite alternate;
+}
+.leaf-gust-petal .petal-shape {
+  fill: var(--color-accent-soft);
+  stroke: var(--color-accent);
+  stroke-width: 0.5;
+}
+.leaf-gust-petal:nth-child(3n) .petal-shape {
+  fill: var(--color-petal);
+  stroke: var(--color-accent-soft);
+}
+.leaf-gust.is-blowing .leaf-gust-petal {
+  animation: leaf-gust var(--dur) cubic-bezier(0.25, 0.1, 0.25, 1) var(--delay) forwards;
+}
+@keyframes leaf-gust {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(-30deg);
+  }
+  12% {
+    opacity: 0.95;
+  }
+  80% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(100vw + 8rem), var(--rise), 0) rotate(var(--spin));
+  }
+}
+
+.page-enter {
+  animation: page-enter 0.95s var(--ease-petal) both;
+}
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Texto que surge da névoa (visível desde o 1º quadro; só opacidade e
+   posição, que o navegador anima na GPU) */
+.mist {
+  animation: mist-in 1.3s var(--ease-petal) both;
+  animation-delay: var(--d, 0ms);
+}
+@keyframes mist-in {
+  from {
+    opacity: 0.15;
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Elementos que chegam ao rolar, como pétalas trazidas pelo vento */
+.reveal {
+  opacity: 0;
+  filter: blur(3px);
+  transform: translate3d(-10px, 28px, 0) rotate(-0.6deg);
+  transition:
+    opacity var(--duration-reveal) var(--ease-petal),
+    transform calc(var(--duration-reveal) * 1.15) var(--ease-petal),
+    filter var(--duration-reveal) var(--ease-petal);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  filter: none;
+  transform: none;
+}
+
+/* ── Capa: o lírio desabrocha com a rolagem e a noite vira dia ────────── */
+.bloom {
+  position: relative;
+  /* espaço de rolagem: o palco fica preso enquanto a flor abre, a noite
+     clareia e, no fim, a frase é escrita (pela rolagem) sozinha na tela */
+  height: 537svh; /* as etapas estão em BloomHero.tsx (BLOOM_END, DAWN_*, WRITE_*) */
+}
+.bloom-stage {
+  --bloom: 0;
+  --dawn: 0;
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--color-night);
+  color: var(--color-night-text);
+}
+.bloom-sky {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--gradient-night);
+}
+.bloom-lily {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 1;
+  /* no celular o lírio passa um pouco das bordas: close dramático */
+  width: min(150vw, 102svh);
+  aspect-ratio: 1122 / 880;
+  /* "screen": o preto do vídeo some e o lírio flutua no céu da noite */
+  mix-blend-mode: screen;
+  opacity: calc(1 - var(--dawn) * 1.5);
+  transform: translateX(-50%) scale(calc(1 + var(--dawn) * 0.12));
+  transform-origin: 50% 100%;
+}
+.bloom-poster,
+.bloom-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.bloom-stage[data-ready] .bloom-poster {
+  visibility: hidden;
+}
+
+.bloom-title {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: clamp(2.5rem, 8svh, 4.5rem) clamp(1.25rem, 5vw, 5rem) 0;
+  font-family: var(--font-display);
+  font-size: var(--size-display-hero);
+  font-weight: 400;
+  line-height: 1.04;
+  pointer-events: none;
+  /* o título recua um pouco enquanto a flor abre e some no amanhecer */
+  opacity: calc(1 - var(--bloom) * 0.3 - var(--dawn) * 2.4);
+}
+.bloom-left,
+.bloom-right {
+  display: flex;
+  flex-direction: column;
+}
+.bloom-left {
+  align-self: flex-start;
+  transform: translate3d(calc(var(--bloom) * -3.5vw), 0, 0);
+}
+.bloom-right {
+  align-self: flex-end;
+  text-align: right;
+  transform: translate3d(calc(var(--bloom) * 3.5vw), 0, 0);
+}
+.bloom-line--em {
+  color: var(--color-night-accent);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.bloom-left .bloom-line--em {
+  padding-left: 1.1em;
+}
+.bloom-right .bloom-line--em {
+  padding-right: 1.1em;
+}
+@media (min-width: 900px) {
+  /* como na referência, o título se divide dos dois lados da flor — em
+     diagonal, para não cobrir as três flores abertas no meio */
+  .bloom-title {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 2rem;
+    padding-bottom: 10svh;
+  }
+}
+
+.bloom-note {
+  position: absolute;
+  left: clamp(1.25rem, 5vw, 5rem);
+  bottom: 2.4rem;
+  z-index: 2;
+  display: none;
+  max-width: 21rem;
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  line-height: 1.8;
+  text-transform: uppercase;
+  color: var(--color-night-muted);
+  opacity: calc(1 - var(--bloom) * 2.5);
+}
+@media (min-width: 900px) {
+  .bloom-note {
+    display: block;
+  }
+}
+.bloom-down {
+  position: absolute;
+  right: clamp(1.25rem, 5vw, 5rem);
+  bottom: 2rem;
+  z-index: 4;
+  display: grid;
+  width: 3.75rem;
+  height: 3.75rem;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  color: var(--color-night-text);
+  opacity: calc(1 - var(--dawn) * 2.2);
+  transition:
+    background-color 0.4s,
+    color 0.4s,
+    transform 0.6s var(--ease-petal);
+}
+.bloom-down:hover {
+  background: var(--color-night-text);
+  color: var(--color-night);
+  transform: translateY(3px);
+}
+.bloom-down svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  animation: down-nudge 2.6s var(--ease-breeze) infinite;
+}
+@keyframes down-nudge {
+  0%,
+  100% {
+    transform: translateY(-2px);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+.bloom[data-phase="day"] .bloom-down {
+  visibility: hidden;
+}
+
+/* O amanhecer: a luz sobe de baixo para cima, passa pelo lilás e vira o
+   branco do dia. A camada tem o dobro da altura do palco: a metade de cima
+   é a luz chegando, a de baixo é o dia já claro. */
+.bloom-day {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 3;
+  height: 200%;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    color-mix(in srgb, var(--color-accent-soft) 42%, transparent) 20%,
+    var(--color-accent-wash) 38%,
+    var(--color-bg) 50%,
+    var(--color-bg) 100%
+  );
+  transform: translate3d(0, calc((0.5 - var(--dawn)) * 100%), 0);
+}
+/* A tela final da capa: só a frase, escrita à mão, ocupando a tela */
+.bloom-dedication {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  padding: 2rem clamp(1.25rem, 6vw, 6rem);
+  pointer-events: none;
+}
+.bloom-dedication::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(50rem 30rem at 50% 50%, var(--color-accent-wash), transparent 70%);
+  opacity: calc((var(--dawn) - 0.6) * 2.5);
+}
+.handwriting {
+  position: relative;
+  width: min(100%, 76rem);
+}
+
+/* A tinta: cada letra tem o contorno traçado (stroke-dashoffset 1 → 0, com
+   pathLength=1) e logo em seguida é preenchida. Quem avança a pena é a
+   rolagem: BloomHero escreve stroke-dashoffset e fill-opacity em cada letra. */
+.ink {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.ink--stacked {
+  display: none;
+}
+@media (max-width: 640px) {
+  .ink--wide {
+    display: none;
+  }
+  .ink--stacked {
+    display: block;
+  }
+}
+.ink path {
+  fill: var(--color-accent);
+  fill-opacity: 0;
+  stroke: var(--color-accent);
+  stroke-width: 1.6;
+  stroke-linecap: butt;
+  stroke-linejoin: round;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+}
+
+/* ── Poema (seção 4) ──────────────────────────────────────────────────── */
+.poem {
+  font-family: var(--font-poem);
+  font-size: var(--poem-size);
+  line-height: 1.7;
+  color: var(--color-text);
+  tab-size: 4;
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures;
+}
+.stanza {
+  margin: 0 0 var(--stanza-gap);
+}
+.stanza:last-child {
+  margin-bottom: 0;
+}
+.verse {
+  display: block;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  /* verso longo que quebra no celular continua com um recuo suave */
+  padding-left: 1.4em;
+  text-indent: -1.4em;
+}
+
+/* Na página do poema, cada estrofe chega com a rolagem */
+@supports (animation-timeline: view()) {
+  .poem--drift .stanza {
+    animation: stanza-drift linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 28%;
+  }
+}
+@keyframes stanza-drift {
+  from {
+    opacity: 0;
+    filter: blur(2px);
+    transform: translate3d(-8px, 18px, 0) rotate(-0.4deg);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
+
+.poem-title {
+  margin-top: 1rem;
+  font-family: var(--font-title);
+  font-size: var(--size-title-xl);
+  font-weight: 500;
+  line-height: 1.08;
+}
+.poem-ellipsis {
+  margin-top: 1.25rem;
+  font-family: var(--font-poem);
+  letter-spacing: 0.5em;
+  color: var(--color-accent-soft);
+}
+
+.reading-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 45;
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--color-accent-soft), var(--color-accent));
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+@supports (animation-timeline: scroll()) {
+  .reading-progress {
+    animation: reading-progress linear both;
+    animation-timeline: scroll(root);
+  }
+}
+@keyframes reading-progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.poem-nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 3rem;
+}
+.poem-nav-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  border-radius: var(--radius);
+  transition: background-color 0.5s var(--ease-petal);
+}
+.poem-nav-link:hover {
+  background: var(--color-accent-wash);
+}
+.poem-nav-link--next {
+  grid-column: 2;
+  align-items: flex-end;
+  text-align: right;
+}
+.poem-nav-title {
+  font-family: var(--font-title);
+  font-size: 1.3rem;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+/* ── Catálogo de poemas: lista só com títulos, cada linha clicável ────── */
+.title-list {
+  width: min(100%, 40rem);
+  margin: 3rem auto 0;
+  border-top: 1px solid var(--color-line);
+}
+.title-row {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.1rem 0.5rem 1.1rem 0.75rem;
+  border-bottom: 1px solid var(--color-line);
+}
+/* Um véu lilás acende atrás da linha ao passar o mouse */
+.title-row::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-accent-wash) 16%,
+    var(--color-accent-wash) 84%,
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-petal);
+}
+.title-row:hover::before,
+.title-row:focus-visible::before {
+  opacity: 1;
+}
+.title-row-name {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-title);
+  font-size: var(--size-title-md);
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--color-text);
+  overflow-wrap: anywhere;
+  transition:
+    color 0.5s var(--ease-petal),
+    transform 0.6s var(--ease-petal);
+}
+.title-row:hover .title-row-name,
+.title-row:focus-visible .title-row-name {
+  color: var(--color-accent);
+  transform: translateX(0.35rem);
+}
+
+/* Chevron num círculo fino: o sinal de "abra", sempre visível (também no
+   celular, onde não existe "passar o mouse") */
+.go-circle {
+  display: grid;
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  place-items: center;
+  border: 1px solid var(--color-accent-soft);
+  border-radius: 50%;
+  color: var(--color-accent);
+  transition:
+    background-color 0.4s var(--ease-petal),
+    border-color 0.4s var(--ease-petal),
+    transform 0.6s var(--ease-petal);
+}
+.go-circle svg {
+  width: 1rem;
+  height: 1rem;
+}
+.title-row:hover .go-circle,
+.title-row:focus-visible .go-circle,
+.catalog-button:hover .go-circle,
+.catalog-button:focus-visible .go-circle {
+  border-color: var(--color-accent);
+  background: var(--color-surface);
+  transform: translateX(3px);
+}
+
+/* "Abrir catálogo" na capa: fora da seção do destaque, leva a /poemas */
+.catalog-cta {
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem 5rem;
+}
+.catalog-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.35rem 0.25rem;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  transition: color 0.4s var(--ease-petal);
+}
+.catalog-button:hover,
+.catalog-button:focus-visible {
+  color: var(--color-accent);
+}
+.catalog-button .go-circle {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+.catalog-button:hover .go-circle,
+.catalog-button:focus-visible .go-circle {
+  background: var(--color-accent-wash);
+}
+
+/* O destaque é um link por inteiro: sobe um pouco e acende ao passar o mouse */
+.featured-card {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  padding: clamp(2rem, 7vw, 4.5rem);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+  transition:
+    transform 0.8s var(--ease-petal),
+    border-color 0.6s var(--ease-petal);
+}
+.featured-card:hover,
+.featured-card:focus-visible {
+  border-color: var(--color-accent-soft);
+  transform: translateY(-5px);
+}
+.featured-title {
+  margin-top: 1.25rem;
+  font-family: var(--font-title);
+  font-size: var(--size-title-xl);
+  font-weight: 500;
+  line-height: 1.08;
+  transition: color 0.5s var(--ease-petal);
+}
+.featured-card:hover .featured-title,
+.featured-card:focus-visible .featured-title {
+  color: var(--color-accent);
+}
+.empty-state {
+  margin: 3rem auto 0;
+  max-width: 28rem;
+  text-align: center;
+}
+
+/* ── Carrossel em perspectiva (poemas e músicas na capa) ──────────────── */
+/* Todos os cartões ocupam a mesma célula do grid; o JS move cada um por
+   variáveis (--x deslocamento, --s escala, --r giro, --f desfoque). */
+.coverflow {
+  --slide-w: min(46rem, 76vw);
+}
+.coverflow--song {
+  --slide-w: min(21rem, 70vw);
+}
+.coverflow-stage {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  perspective: 1800px;
+  overflow-x: clip; /* os cartões dos lados não criam rolagem lateral na página */
+  /* folga embaixo para a sombra do cartão não ser cortada pela máscara */
+  padding-block: 2rem 4.5rem;
+  /* as bordas se dissolvem no papel */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.coverflow-stage.is-interactive {
+  touch-action: pan-y; /* vertical continua rolando a página; lateral é do carrossel */
+  cursor: grab;
+}
+.coverflow-stage.is-dragging {
+  cursor: grabbing;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.coverflow-stage.is-dragging * {
+  pointer-events: none;
+}
+.coverflow-slide {
+  position: relative;
+  grid-area: 1 / 1;
+  width: var(--slide-w);
+  transform: translate3d(var(--x, 0%), 0, 0) scale(var(--s, 1)) rotateY(var(--r, 0deg));
+  filter: var(--f, none);
+}
+.coverflow-content {
+  width: 100%;
+}
+/* Cartão do lado: clicar traz ele para o centro */
+.coverflow-peek {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+}
+.coverflow-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-top: -1.75rem;
+}
+.coverflow-arrow:not(:disabled):hover,
+.coverflow-arrow:focus-visible {
+  border-color: var(--color-accent);
+  background: var(--color-accent-wash);
+}
+.coverflow-arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.coverflow-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.coverflow-dot {
+  position: relative;
+  width: 0.4rem;
+  height: 0.4rem;
+  padding: 0;
+  border-radius: 999px;
+  background: var(--color-accent-soft);
+  opacity: 0.6;
+  transition:
+    width 0.5s var(--ease-petal),
+    opacity 0.4s var(--ease-petal),
+    background-color 0.4s var(--ease-petal);
+}
+.coverflow-dot::after {
+  /* área de toque maior que o pontinho */
+  content: "";
+  position: absolute;
+  inset: -0.7rem -0.3rem;
+}
+.coverflow-dot[aria-current="true"] {
+  width: 1.4rem;
+  opacity: 1;
+  background: var(--color-accent);
+}
+
+/* ── Músicas ──────────────────────────────────────────────────────────── */
+.song-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3.5rem 2.25rem;
+}
+.song-grid > li {
+  width: 100%;
+  flex: 0 1 22rem;
+}
+.song-card {
+  scroll-margin-top: 6rem;
+}
+
+.cover {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius);
+  background: var(--color-accent-wash);
+  box-shadow: var(--shadow);
+}
+.cover-image {
+  object-fit: cover;
+  transition: transform 1.4s var(--ease-petal);
+}
+.song-card:hover .cover-image {
+  transform: scale(1.05);
+}
+.cover-placeholder {
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(120% 90% at 18% 12%, var(--color-accent-wash) 0%, transparent 55%),
+    linear-gradient(150deg, var(--color-accent-soft) 0%, var(--color-accent) 100%);
+}
+/* A inicial do título vem de data-initial (pseudo-elemento, só decorativa) */
+.cover-placeholder::after {
+  content: attr(data-initial);
+  position: relative;
+  font-family: var(--font-script);
+  font-size: clamp(4.5rem, 20vw, 8rem);
+  line-height: 1;
+  color: var(--color-accent-contrast);
+  text-shadow: var(--shadow-text);
+}
+.cover-placeholder--small::after {
+  font-size: 1.7rem;
+}
+
+/* ── Player ───────────────────────────────────────────────────────────── */
+.player {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+.player-toggle {
+  position: relative;
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  flex: none;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  box-shadow: var(--shadow);
+  transition:
+    transform 0.4s var(--ease-petal),
+    box-shadow 0.4s var(--ease-petal);
+}
+.player-toggle:hover {
+  transform: scale(1.06);
+  box-shadow: var(--shadow-lg);
+}
+.player-toggle--small {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+/* Halo que pulsa enquanto toca */
+.player.is-playing .player-toggle::before,
+.mini-player.is-playing .player-toggle::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border: 1px solid var(--color-accent-soft);
+  border-radius: inherit;
+  animation: halo 2.4s ease-out infinite;
+}
+@keyframes halo {
+  from {
+    opacity: 0.9;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+.player-toggle.is-loading::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border: 2px solid transparent;
+  border-top-color: var(--color-accent-soft);
+  border-radius: inherit;
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.player-time {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.icon-button {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  flex: none;
+  place-items: center;
+  border-radius: 999px;
+  color: var(--color-muted);
+  transition:
+    color 0.3s,
+    background-color 0.3s;
+}
+.icon-button:hover {
+  background: var(--color-accent-wash);
+  color: var(--color-accent);
+}
+
+.volume {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.volume .range {
+  width: 5rem;
+}
+
+/* Barra arrastável (progresso e volume) */
+.range {
+  --fill: 0%;
+  display: block;
+  width: 100%;
+  height: 22px;
+  cursor: pointer;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.range:disabled {
+  cursor: default;
+}
+.range:focus-visible {
+  outline: none;
+}
+.range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--color-accent) var(--fill), var(--color-line) var(--fill));
+}
+.range::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--color-accent) var(--fill), var(--color-line) var(--fill));
+}
+.range::-webkit-slider-thumb {
+  width: 14px;
+  height: 14px;
+  margin-top: -5px;
+  border: 2px solid var(--color-surface);
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: var(--shadow);
+  transition: transform 0.25s var(--ease-petal);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.range::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--color-surface);
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+.range:disabled::-webkit-slider-thumb {
+  background: var(--color-accent-soft);
+  box-shadow: none;
+}
+.range:disabled::-moz-range-thumb {
+  background: var(--color-accent-soft);
+}
+.range:active::-webkit-slider-thumb {
+  transform: scale(1.25);
+}
+.range:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+.range:focus-visible::-moz-range-thumb {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Mini-player fixo no rodapé (a música continua ao navegar) */
+.mini-player-spacer {
+  height: 6.5rem;
+}
+.mini-player {
+  position: fixed;
+  left: 50%;
+  bottom: max(0.9rem, env(safe-area-inset-bottom));
+  z-index: 50;
+  display: flex;
+  width: min(40rem, calc(100% - 1.5rem));
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  backdrop-filter: blur(16px) saturate(1.3);
+  box-shadow: var(--shadow-lg);
+  transform: translateX(-50%);
+  animation: mini-in 0.8s var(--ease-petal) both;
+}
+@keyframes mini-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 130%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+.mini-player-cover {
+  width: 3rem;
+  height: 3rem;
+  flex: none;
+  border-radius: 10px;
+  box-shadow: none;
+}
+.mini-player-title {
+  overflow: hidden;
+  font-family: var(--font-title);
+  font-size: 1.1rem;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.mini-player-title:hover {
+  color: var(--color-accent);
+}
+
+/* ── Formulários e painel ─────────────────────────────────────────────── */
+.field-label {
+  display: block;
+  margin-bottom: 0.55rem;
+  font-family: var(--font-ui);
+  font-size: var(--size-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+.field {
+  display: block;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
+}
+.field:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 4px var(--color-accent-wash);
+}
+.field:disabled {
+  opacity: 0.7;
+}
+.field--title {
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+.field--poem {
+  min-height: 26rem;
+  resize: vertical;
+  font-family: var(--font-poem);
+  font-size: var(--poem-size);
+  line-height: 1.7;
+  white-space: pre-wrap;
+  tab-size: 4;
+}
+.field-file {
+  padding: 0.6rem;
+  font-size: 0.9rem;
+}
+.field-file::file-selector-button {
+  margin-right: 1rem;
+  padding: 0.55rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--color-accent-wash);
+  color: var(--color-accent);
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.field-hint {
+  margin-top: 0.75rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--color-muted);
+}
+.checkbox {
+  width: 1.15rem;
+  height: 1.15rem;
+  accent-color: var(--color-accent);
+}
+.form-error {
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius);
+  background: var(--color-danger-wash);
+  color: var(--color-danger);
+  font-size: 0.92rem;
+}
+.notice {
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background: var(--color-accent-wash);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.progress-track {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--color-accent-wash);
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-accent-soft), var(--color-accent));
+  transform-origin: 0 50%;
+  transition: transform 0.3s var(--ease-petal);
+}
+
+.panel-card,
+.preview-card {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+}
+.preview-card {
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.badge--live {
+  background: var(--color-accent-wash);
+  color: var(--color-accent);
+}
+.badge--draft {
+  border: 1px solid var(--color-line);
+  background: var(--color-bg);
+  color: var(--color-muted);
+}
+
+/* ── Barra de rolagem: discreta e translúcida ─────────────────────────── */
+html {
+  /* herdado pelas áreas roláveis internas (textarea, prévia do poema…) */
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+body * {
+  scrollbar-width: thin;
+}
+@media (hover: hover) and (pointer: fine) {
+  /* no computador, a barra nativa dá lugar à linha fina de ScrollIndicator */
+  html {
+    scrollbar-width: none;
+  }
+  html::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+}
+.scroll-rail {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 70;
+  width: 14px;
+}
+.scroll-rail[data-hidden] {
+  display: none;
+}
+.scroll-thumb {
+  position: absolute;
+  top: 0;
+  right: 3px;
+  width: 3px;
+  border-radius: 999px;
+  background: var(--scrollbar-thumb);
+  opacity: 0;
+  cursor: grab;
+  will-change: transform;
+  transition:
+    opacity 0.7s var(--ease-petal),
+    width 0.3s var(--ease-petal),
+    background-color 0.6s var(--ease-petal);
+}
+.scroll-rail.is-active .scroll-thumb,
+.scroll-rail:hover .scroll-thumb {
+  opacity: 1;
+}
+.scroll-rail:hover .scroll-thumb,
+.scroll-rail.is-dragging .scroll-thumb {
+  width: 6px;
+  background: var(--scrollbar-thumb-hover);
+}
+.scroll-rail.is-dragging .scroll-thumb {
+  cursor: grabbing;
+}
+body:has(.bloom[data-phase="night"]) .scroll-thumb {
+  background: var(--scrollbar-thumb-night);
+}
+body:has(.bloom[data-phase="night"]) .scroll-rail:hover .scroll-thumb,
+body:has(.bloom[data-phase="night"]) .scroll-rail.is-dragging .scroll-thumb {
+  background: var(--scrollbar-thumb-night-hover);
+}
+html.is-scroll-dragging {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ── 404 ──────────────────────────────────────────────────────────────── */
+.lost-petal {
+  width: 2.75rem;
+  margin: 0 auto 2rem;
+  animation: lost-float 5s var(--ease-breeze) infinite alternate;
+}
+@keyframes lost-float {
+  from {
+    transform: translate3d(-14px, 0, 0) rotate(-18deg);
+  }
+  to {
+    transform: translate3d(14px, -12px, 0) rotate(24deg);
+  }
+}
+
+@tailwind utilities;
+
+/* ── Menos movimento ──────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .gust,
+  .leaf-gust {
+    display: none;
+  }
+  .bloom-left,
+  .bloom-right {
+    transform: none;
+  }
+  .bloom-lily {
+    transform: translateX(-50%);
+  }
+  /* sem animação de escrita: a frase já aparece escrita */
+  .ink path {
+    stroke-dashoffset: 0 !important;
+    fill-opacity: 1 !important;
+  }
+  .reveal {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+  .poem--drift .stanza {
+    animation: none;
+  }
+}
+
+/* Crédito discreto no rodapé, abaixo da assinatura */
+.footer-credit {
+  margin-top: 0.4rem;
+  font-family: var(--font-poem);
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--color-muted);
+}
