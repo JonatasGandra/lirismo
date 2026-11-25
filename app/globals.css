@@ -543,11 +543,22 @@
   --dawn: 0;
   position: sticky;
   top: 0;
-  height: 100svh;
+  /* Altura da tela SEM a barra do navegador (lvh): no Chrome do celular a barra
+     some ao rolar e a tela cresce; com svh sobrava uma faixa branca embaixo.
+     --ui-gap é a altura dessa barra: o que fica no rodapé do palco sobe esse
+     tanto para não ficar escondido quando ela aparece. */
+  --ui-gap: 0px;
+  height: 100vh;
+  height: 100lvh;
   overflow: hidden;
   isolation: isolate;
   background: var(--color-night);
   color: var(--color-night-text);
+}
+@supports (height: 100lvh) {
+  .bloom-stage {
+    --ui-gap: calc(100lvh - 100svh);
+  }
 }
 .bloom-sky {
   position: absolute;
@@ -558,7 +569,7 @@
 .bloom-lily {
   position: absolute;
   left: 50%;
-  bottom: 0;
+  bottom: var(--ui-gap);
   z-index: 1;
   /* no celular o lírio passa um pouco das bordas: close dramático */
   width: min(150vw, 102svh);
@@ -637,7 +648,7 @@
 .bloom-note {
   position: absolute;
   left: clamp(1.25rem, 5vw, 5rem);
-  bottom: 2.4rem;
+  bottom: calc(2.4rem + var(--ui-gap));
   z-index: 2;
   display: none;
   max-width: 21rem;
@@ -658,7 +669,7 @@
 .bloom-down {
   position: absolute;
   right: clamp(1.25rem, 5vw, 5rem);
-  bottom: 2rem;
+  bottom: calc(2rem + var(--ui-gap));
   z-index: 4;
   display: grid;
   width: 3.75rem;
@@ -1041,6 +1052,23 @@
 }
 .coverflow--song {
   --slide-w: min(21rem, 70vw);
+}
+/* Prévia do poema: a letra acompanha a largura do cartão (unidade cqi), para
+   cada verso caber inteiro numa linha também no celular. No computador o
+   limite é o tamanho normal do poema. */
+.coverflow--poem .featured-card {
+  container-type: inline-size;
+}
+.coverflow--poem .poem {
+  font-size: clamp(0.88rem, 5.1cqi, var(--poem-size));
+}
+@media (max-width: 640px) {
+  .coverflow--poem {
+    --slide-w: 88vw;
+  }
+  .coverflow--poem .featured-card {
+    padding: 2.25rem 1.25rem;
+  }
 }
 .coverflow-stage {
   display: grid;

@@ -11,9 +11,9 @@
   --color-surface: #fffdfb;         /* cartões e painéis */
   --color-text: #2e2533;            /* ameixa quase preta */
   --color-muted: #6e6375;           /* textos secundários (contraste AA) */
-  --color-accent: #7e57a0;          /* lilás profundo: links e botões (contraste AA) */
-  --color-accent-soft: #c6a8dd;     /* lilás da flor: ornamentos e detalhes */
-  --color-accent-wash: #f1e9f6;     /* véu lilás: fundos suaves */
+  --color-accent: #9a7bbf;          /* lilás claro: títulos, links e botões (pedido: mais claro) */
+  --color-accent-soft: #d5bfe9;     /* lilás da flor: ornamentos e detalhes */
+  --color-accent-wash: #f5eefb;     /* véu lilás: fundos suaves */
   --color-accent-contrast: #ffffff; /* texto sobre o lilás */
   --color-petal: #ece0f4;           /* pétalas da frente do lírio e as que voam */
   --color-line: #e8deeb;            /* filetes e bordas */
